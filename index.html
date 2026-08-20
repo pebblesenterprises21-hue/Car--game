@@ -234,7 +234,102 @@ let loopStarted=false;
 document.getElementById("best").textContent=best;
 document.getElementById("coins").textContent=coinCount;
 
+/* =========================
+   PRESS AND HOLD CONTROLS
+========================= */
 
+let moveInterval = null;
+
+function startMoving(direction){
+
+  if(!running) return;
+
+  // Move immediately
+  direction === "left"
+    ? leftMove()
+    : rightMove();
+
+  // Continue moving while pressed
+  clearInterval(moveInterval);
+
+  moveInterval = setInterval(() => {
+
+    if(!running){
+      clearInterval(moveInterval);
+      return;
+    }
+
+    direction === "left"
+      ? leftMove()
+      : rightMove();
+
+  },180);
+}
+
+function stopMoving(){
+
+  clearInterval(moveInterval);
+  moveInterval=null;
+
+}
+
+
+/* LEFT BUTTON */
+
+const leftButton=
+document.getElementById("left");
+
+leftButton.addEventListener(
+  "pointerdown",
+  e=>{
+    e.preventDefault();
+    startMoving("left");
+  }
+);
+
+leftButton.addEventListener(
+  "pointerup",
+  stopMoving
+);
+
+leftButton.addEventListener(
+  "pointercancel",
+  stopMoving
+);
+
+leftButton.addEventListener(
+  "pointerleave",
+  stopMoving
+);
+
+
+/* RIGHT BUTTON */
+
+const rightButton=
+document.getElementById("right");
+
+rightButton.addEventListener(
+  "pointerdown",
+  e=>{
+    e.preventDefault();
+    startMoving("right");
+  }
+);
+
+rightButton.addEventListener(
+  "pointerup",
+  stopMoving
+);
+
+rightButton.addEventListener(
+  "pointercancel",
+  stopMoving
+);
+
+rightButton.addEventListener(
+  "pointerleave",
+  stopMoving
+);
 /* =========================
    LANE
 ========================= */
